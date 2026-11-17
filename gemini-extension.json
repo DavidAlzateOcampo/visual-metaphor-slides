@@ -1,0 +1,49 @@
+{
+  "name": "visual-metaphor-slides",
+  "version": "1.0.0",
+  "description": "HTML/SVG presentation plugin featuring 20 non-rectangular visual structural metaphor slide layouts across 5 geometric families: Hub & Radial, Trajectory & Momentum, Organic & Flow, Synergy & Network, and Depth & Perspective, plus a full 16:9 interactive HTML deck engine.",
+  "author": "David Alzate (@futix13)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidAlzateOcampo/visual-metaphor-slides.git"
+  },
+  "engines": {
+    "gemini": ">=0.30.0"
+  },
+  "contribution": {
+    "skills": [
+      {
+        "id": "visual-metaphor-deck",
+        "path": "skills/visual-metaphor-deck"
+      },
+      {
+        "id": "hub-radial-slides",
+        "path": "skills/hub-radial-slides"
+      },
+      {
+        "id": "trajectory-momentum-slides",
+        "path": "skills/trajectory-momentum-slides"
+      },
+      {
+        "id": "organic-flow-slides",
+        "path": "skills/organic-flow-slides"
+      },
+      {
+        "id": "synergy-network-slides",
+        "path": "skills/synergy-network-slides"
+      },
+      {
+        "id": "depth-perspective-slides",
+        "path": "skills/depth-perspective-slides"
+      }
+    ],
+    "commands": [
+      {
+        "id": "metaphor-deck",
+        "description": "Create an interactive 16:9 HTML presentation using the 20 Visual Structural Metaphors (e.g. /metaphor-deck AI Platform Strategy)",
+        "path": "commands/metaphor-deck.md"
+      }
+    ]
+  }
+}

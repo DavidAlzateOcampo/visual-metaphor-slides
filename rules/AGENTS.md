@@ -1,0 +1,17 @@
+# Visual Metaphor Slides — Plugin Rules
+
+When the user asks to build an HTML presentation, slide deck, or visual metaphor slide using the `visual-metaphor-slides` plugin:
+
+1. **Ban Standard Rectangular Card Grids**: Never default to generic 3-column rectangular cards or 2x2 boxy grids unless explicitly requested for comparison tables. Instead, select from the **20 Visual Structural Metaphors** where the slide geometry directly mirrors the logic of the message.
+2. **Skill Routing Across the 6 Plugin Skills**:
+   - **`visual-metaphor-deck`**: Master deck orchestrator, storyboard mapping, 16:9 interactive HTML shell (keyboard navigation, fullscreen, overview grid, theme toggle, print-to-PDF), and deck assembly.
+   - **`hub-radial-slides`**: Patterns 1–4 (*Gravitational Planetary Orbit*, *Concentric Ripple / Target Wave*, *Nested Russian-Doll Onion Sphere*, *Polar Clock / Dial Matrix*).
+   - **`trajectory-momentum-slides`**: Patterns 5–8 (*Sigmoid S-Curve Inflection*, *Rollercoaster / Momentum Slingshot*, *Ascending Archimedean Spiral*, *Rocket Booster Multi-Stage Vector*).
+   - **`organic-flow-slides`**: Patterns 9–12 (*River Delta / Confluence Flow*, *Deep Root & Canopy Tree*, *Hourglass / Choke-Point Funnel*, *DNA Double Helix Pipeline*).
+   - **`synergy-network-slides`**: Patterns 13–16 (*Overlapping Optical Lens / Luminous Venn*, *Constellation / Synaptic Neural Mesh*, *Magnetic Field / Dipole Dynamic*, *Stepping-Stone Island Chain*).
+   - **`depth-perspective-slides`**: Patterns 17–20 (*Tip-of-the-Iceberg Cross Section*, *Isometric Layered Glass Sandwich*, *Spotlight Focal Aperture*, *Bridge / Chasm Crossing*).
+3. **Self-Contained Zero-Dependency HTML**: Every generated presentation must be a single self-contained `.html` file with inline SVG geometry, CSS variables for theming (`executive-dark`, `editorial-light`, `midnight-cobalt`, `warm-parchment`), responsive 16:9 viewport scaling, and interactive keyboard navigation.
+4. **Modern Web Guidance Compliance (`modern-web-guidance`)**:
+   - **Color Scheme & Dark Mode (`dark-mode`, `dark-mode-toggle`)**: Include `<meta name="color-scheme" content="light dark">` + inline FOUC-prevention script in `<head>`, declare `color-scheme: light dark` on `:root` mapped via `:has(> head > meta[name="color-scheme"])`, and define `light-dark()` color tokens with `@media (prefers-color-scheme: dark)` fallbacks.
+   - **Directional View Transitions (`directional-navigation-transitions`, `motion`)**: Wrap slide changes in `document.startViewTransition({ update, types: [direction] })` with a feature-detection fallback (`if (!document.startViewTransition)`), use `html:active-view-transition-type(forward|backward)` with `transform: translateX(...)` keyframes, and gate spatial motion with `@media (prefers-reduced-motion: no-preference)` and `@media (prefers-reduced-motion: reduce)`.
+   - **Native Top-Layer `<dialog>` Overview (`dialog`, `light-dismiss-a-dialog`, `declarative-dialog-popover-control`, `prevent-page-scroll-under-modal-dialog`, `animate-to-from-top-layer`)**: Implement the slide overview grid as a native `<dialog closedby="any" aria-labelledby="...">` opened via `command="show-modal"` / `showModal()`, styled with `overscroll-behavior: contain` on `dialog:modal` and `overflow: hidden; overscroll-behavior: contain` on `dialog::backdrop`, animated with `@starting-style` + `transition-behavior: allow-discrete` + `overlay`, and paired with feature-detected fallbacks for `closedby`, `commandForElement`, and top-layer exit transitions.

@@ -1,0 +1,9 @@
+{
+  "name": "visual-metaphor-slides",
+  "description": "HTML/SVG presentation plugin featuring 20 non-rectangular visual structural metaphor slide layouts across 5 geometric families: Hub & Radial, Trajectory & Momentum, Organic & Flow, Synergy & Network, and Depth & Perspective, plus a full 16:9 interactive HTML deck engine.",
+  "version": "1.0.0",
+  "author": {
+    "name": "David Alzate",
+    "url": "https://x.com/futix13"
+  }
+}

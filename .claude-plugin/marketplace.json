@@ -1,0 +1,20 @@
+{
+  "name": "visual-metaphor-slides-marketplace",
+  "description": "Marketplace for the Visual Metaphor Slides HTML/SVG presentation plugin",
+  "owner": {
+    "name": "David Alzate",
+    "url": "https://x.com/futix13"
+  },
+  "plugins": [
+    {
+      "name": "visual-metaphor-slides",
+      "description": "HTML/SVG presentation plugin featuring 20 non-rectangular visual structural metaphor slide layouts across 5 geometric families: Hub & Radial, Trajectory & Momentum, Organic & Flow, Synergy & Network, and Depth & Perspective.",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "David Alzate",
+        "url": "https://x.com/futix13"
+      }
+    }
+  ]
+}

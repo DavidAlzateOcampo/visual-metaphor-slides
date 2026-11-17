@@ -1,0 +1,7 @@
+{
+  "name": "visual-metaphor-slides",
+  "displayName": "Visual Metaphor Slides — 20 Non-Rectangular HTML/SVG Slide Layouts",
+  "description": "Create interactive 16:9 HTML/SVG presentations using 20 visual structural metaphors across 5 geometric families.",
+  "version": "1.0.0",
+  "skills": "./skills/"
+}

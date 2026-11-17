@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="executive-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content = localStorage.getItem("color-scheme") ?? "light dark";
+    } catch {}
+  </script>
+  <title>20 Visual Structural Metaphors — Interactive HTML Slide Deck</title>
+  <style>
+    :root {
+      --bg-primary-light: #F8FAFC;
+      --bg-primary-dark: #070B14;
+      --bg-secondary-light: #EEF2F6;
+      --bg-secondary-dark: #0F172A;
+      --bg-glass-light: rgba(255, 255, 255, 0.85);
+      --bg-glass-dark: rgba(15, 23, 42, 0.72);
+      --text-primary-light: #0F172A;
+      --text-primary-dark: #F8FAFC;
+      --text-secondary-light: #334155;
+      --text-secondary-dark: #94A3B8;
+      --text-muted-light: #64748B;
+      --text-muted-dark: #64748B;
+
+      --bg-primary: var(--bg-primary-dark);
+      --bg-secondary: var(--bg-secondary-dark);
+      --bg-glass: var(--bg-glass-dark);
+      --text-primary: var(--text-primary-dark);
+      --text-secondary: var(--text-secondary-dark);
+      --text-muted: var(--text-muted-dark);
+      --accent-cyan: #38BDF8;
+      --accent-violet: #A855F7;
+      --accent-emerald: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-rose: #F43F5E;
+      --border-subtle: rgba(148, 163, 184, 0.18);
+      --lens-blend: screen;
+
+      @media (prefers-color-scheme: light) {
+        --bg-primary: var(--bg-primary-light);
+        --bg-secondary: var(--bg-secondary-light);
+        --bg-glass: var(--bg-glass-light);
+        --text-primary: var(--text-primary-light);
+        --text-secondary: var(--text-secondary-light);
+      }
+
+      @supports (color: light-dark(white, black)) {
+        --bg-primary: light-dark(var(--bg-primary-light), var(--bg-primary-dark));
+        --bg-secondary: light-dark(var(--bg-secondary-light), var(--bg-secondary-dark));
+        --bg-glass: light-dark(var(--bg-glass-light), var(--bg-glass-dark));
+        --text-primary: light-dark(var(--text-primary-light), var(--text-primary-dark));
+        --text-secondary: light-dark(var(--text-secondary-light), var(--text-secondary-dark));
+      }
+
+      color-scheme: light dark;
+
+      &:has(> head > meta[name="color-scheme"][content="dark"]) {
+        color-scheme: dark;
+      }
+      &:has(> head > meta[name="color-scheme"][content="light"]) {
+        color-scheme: light;
+      }
+    }
+
+    [data-theme="executive-dark"] {
+      color-scheme: dark;
+      --bg-primary: #070B14;
+      --bg-secondary: #0F172A;
+      --bg-glass: rgba(15, 23, 42, 0.72);
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --accent-cyan: #38BDF8;
+      --accent-violet: #A855F7;
+      --accent-emerald: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-rose: #F43F5E;
+      --border-subtle: rgba(148, 163, 184, 0.18);
+      --lens-blend: screen;
+    }
+
+    [data-theme="midnight-cobalt"] {
+      color-scheme: dark;
+      --bg-primary: #060D24;
+      --bg-secondary: #0D1B3E;
+      --bg-glass: rgba(13, 27, 62, 0.75);
+      --text-primary: #F0F7FF;
+      --text-secondary: #93C5FD;
+      --text-muted: #60A5FA;
+      --accent-cyan: #00F5D4;
+      --accent-violet: #8B5CF6;
+      --accent-emerald: #34D399;
+      --accent-amber: #FFD166;
+      --accent-rose: #FF6B6B;
+      --border-subtle: rgba(147, 197, 253, 0.2);
+      --lens-blend: screen;
+    }
+
+    [data-theme="editorial-light"] {
+      color-scheme: light;
+      --bg-primary: #F8FAFC;
+      --bg-secondary: #EEF2F6;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --text-primary: #0F172A;
+      --text-secondary: #334155;
+      --text-muted: #64748B;
+      --accent-cyan: #0284C7;
+      --accent-violet: #7C3AED;
+      --accent-emerald: #059669;
+      --accent-amber: #D97706;
+      --accent-rose: #E11D48;
+      --border-subtle: rgba(15, 23, 42, 0.14);
+      --lens-blend: multiply;
+    }
+
+    [data-theme="warm-parchment"] {
+      color-scheme: light;
+      --bg-primary: #F5F2EB;
+      --bg-secondary: #EAE4D7;
+      --bg-glass: rgba(250, 247, 240, 0.88);
+      --text-primary: #1C1917;
+      --text-secondary: #44403C;
+      --text-muted: #78716C;
+      --accent-cyan: #0369A1;
+      --accent-violet: #6D28D9;
+      --accent-emerald: #15803D;
+      --accent-amber: #B45309;
+      --accent-rose: #BE123C;
+      --border-subtle: rgba(28, 25, 23, 0.15);
+      --lens-blend: multiply;
+    }
+
+    /* Directional View Transitions (directional-navigation-transitions) */
+    @keyframes slide-to-left {
+      to { transform: translateX(-100%); }
+    }
+    @keyframes slide-from-right {
+      from { transform: translateX(100%); }
+    }
+    @keyframes slide-to-right {
+      to { transform: translateX(100%); }
+    }
+    @keyframes slide-from-left {
+      from { transform: translateX(-100%); }
+    }
+
+    ::view-transition-group(root) {
+      animation: 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    html:active-view-transition-type(forward)::view-transition-old(root) {
+      animation-name: slide-to-left;
+    }
+    html:active-view-transition-type(forward)::view-transition-new(root) {
+      animation-name: slide-from-right;
+    }
+    html:active-view-transition-type(backward)::view-transition-old(root) {
+      animation-name: slide-to-right;
+    }
+    html:active-view-transition-type(backward)::view-transition-new(root) {
+      animation-name: slide-from-left;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(root) {
+        animation: none !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    /* Top Control HUD */
+    .deck-hud {
+      position: fixed;
+      top: 16px;
+      left: 28px;
+      right: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .hud-pill {
+      pointer-events: auto;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .hud-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .hud-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    /* Slide Viewport */
+    .deck-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 68px 56px 48px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(0.97);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        transition-duration: 0.1s;
+      }
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(1);
+      }
+    }
+
+    .slide-header {
+      text-align: center;
+      margin-bottom: 8px;
+      z-index: 5;
+    }
+
+    .metaphor-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      margin-bottom: 8px;
+    }
+
+    .slide-header h1 {
+      font-size: clamp(22px, 2.4vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .slide-header .subtitle {
+      font-size: clamp(13px, 1.15vw, 16px);
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .canvas-stage {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 0;
+    }
+
+    .metaphor-svg {
+      width: 100%;
+      height: 100%;
+      max-width: 1320px;
+      max-height: 680px;
+      overflow: visible;
+    }
+
+    .svg-title {
+      fill: var(--text-primary);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .svg-sub {
+      fill: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .node-title {
+      fill: var(--text-primary);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .node-caption {
+      fill: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+
+    .lens-circle {
+      mix-blend-mode: var(--lens-blend);
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-emerald));
+      transition: width 0.3s ease;
+      z-index: 100;
+    }
+
+    /* Native Top-Layer <dialog> Overview Drawer (dialog, prevent-page-scroll-under-modal-dialog, animate-to-from-top-layer) */
+    dialog:modal {
+      overscroll-behavior: contain;
+    }
+
+    dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+      background-color: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(8px);
+      transition-property: background-color, display, overlay;
+      transition-duration: 0.3s;
+      transition-timing-function: ease-out;
+      transition-behavior: allow-discrete;
+    }
+
+    dialog.overview-modal {
+      inset: 0;
+      width: 100vw;
+      max-width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      border: none;
+      background: rgba(7, 11, 20, 0.92);
+      color: var(--text-primary);
+      backdrop-filter: blur(16px);
+      padding: 64px 48px;
+      overflow-y: auto;
+      opacity: 0;
+      transition-property: opacity, transform, display, overlay;
+      transition-duration: 0.3s;
+      transition-timing-function: ease-out;
+      transition-behavior: allow-discrete;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(0.96);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        transition-duration: 0.1s;
+      }
+    }
+
+    :is(dialog.overview-modal[open]):where(:not([data-closing])) {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(1);
+
+        @starting-style {
+          transform: scale(0.96);
+        }
+      }
+
+      &::backdrop {
+        background-color: rgba(0, 0, 0, 0.55);
+
+        @starting-style {
+          background-color: rgba(0, 0, 0, 0);
+        }
+      }
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      max-width: 1400px;
+      margin: 24px auto 0;
+    }
+
+    .overview-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .overview-item:hover, .overview-item.current {
+      border-color: var(--accent-cyan);
+      transform: translateY(-3px);
+    }
+
+    .overview-item .num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+    }
+
+    .overview-item .title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 4px;
+    }
+
+    .overview-item .family {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    @media print {
+      body { overflow: visible; height: auto; }
+      .deck-hud, .progress-bar, .overview-modal { display: none !important; }
+      .slide {
+        position: relative;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+        page-break-after: always;
+        height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation & Theme HUD -->
+  <div class="deck-hud">
+    <div class="hud-pill">
+      <span>✨ Visual Metaphor Slides</span>
+      <span id="slideCounter">01 / 20</span>
+      <span id="familyLabel" style="color: var(--accent-cyan);">Core Hub &amp; Radial</span>
+    </div>
+    <div class="hud-pill">
+      <button type="button" class="hud-btn" onclick="prevSlide()">← Prev</button>
+      <button type="button" class="hud-btn" onclick="nextSlide()">Next →</button>
+      <button type="button" class="hud-btn" commandfor="overviewModal" command="show-modal">Grid (G)</button>
+      <button type="button" class="hud-btn" onclick="cycleTheme()">Theme (T)</button>
+      <button type="button" class="hud-btn" onclick="toggleFullscreen()">Fullscreen (F)</button>
+    </div>
+  </div>
+
+  <div class="deck-container" id="deckContainer">
+
+    <!-- ==================== SLIDE 1: PLANETARY ORBIT ==================== -->
+    <section class="slide active" data-family="Core Hub & Radial" data-title="The Gravitational Planetary Orbit">
+      <header class="slide-header">
+        <span class="metaphor-badge">01 · Core Hub &amp; Radial Metaphor</span>
+        <h1>The Gravitational Planetary Orbit</h1>
+        <p class="subtitle">Platform Ecosystem: Orbital distance and sphere scale encode dependency priority without rectangular cards</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <defs>
+            <radialGradient id="coreSphere" cx="35%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#67E8F9"/>
+              <stop offset="50%" stop-color="#0284C7"/>
+              <stop offset="100%" stop-color="#0F172A"/>
+            </radialGradient>
+          </defs>
+          <g transform="translate(580, 300) rotate(-12)">
+            <ellipse cx="0" cy="0" rx="210" ry="90" fill="none" stroke="var(--accent-cyan)" stroke-width="1.6" stroke-dasharray="6 6" opacity="0.65"/>
+            <ellipse cx="0" cy="0" rx="355" ry="152" fill="none" stroke="var(--accent-violet)" stroke-width="1.6" stroke-dasharray="8 8" opacity="0.5"/>
+            <ellipse cx="0" cy="0" rx="495" ry="215" fill="none" stroke="var(--accent-emerald)" stroke-width="1.6" stroke-dasharray="4 10" opacity="0.4"/>
+          </g>
+          <!-- Central Core -->
+          <circle cx="580" cy="300" r="96" fill="var(--accent-cyan)" opacity="0.14"/>
+          <circle cx="580" cy="300" r="74" fill="url(#coreSphere)" stroke="#BAE6FD" stroke-width="2.5"/>
+          <text x="580" y="295" text-anchor="middle" class="svg-title">CORE ENGINE</text>
+          <text x="580" y="315" text-anchor="middle" class="svg-sub">Unified State &amp; Auth</text>
+          <!-- Satellites -->
+          <g transform="translate(375, 282)">
+            <circle r="34" fill="rgba(56,189,248,0.2)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+            <circle r="8" fill="var(--accent-cyan)"/>
+            <text x="0" y="-44" text-anchor="middle" class="node-title">Identity Mesh</text>
+            <text x="0" y="-27" text-anchor="middle" class="node-caption">Inner Orbit · Zero-Trust</text>
+          </g>
+          <g transform="translate(782, 320)">
+            <circle r="30" fill="rgba(56,189,248,0.2)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+            <circle r="7" fill="var(--accent-cyan)"/>
+            <text x="0" y="50" text-anchor="middle" class="node-title">Event Streaming</text>
+            <text x="0" y="67" text-anchor="middle" class="node-caption">Inner Orbit · Real-Time Bus</text>
+          </g>
+          <g transform="translate(275, 435)">
+            <circle r="27" fill="rgba(168,85,247,0.2)" stroke="var(--accent-violet)" stroke-width="2"/>
+            <circle r="6" fill="var(--accent-violet)"/>
+            <text x="0" y="45" text-anchor="middle" class="node-title">Billing &amp; Metering</text>
+            <text x="0" y="62" text-anchor="middle" class="node-caption">Mid Orbit · Usage Ledger</text>
+          </g>
+          <g transform="translate(880, 155)">
+            <circle r="28" fill="rgba(168,85,247,0.2)" stroke="var(--accent-violet)" stroke-width="2"/>
+            <circle r="6" fill="var(--accent-violet)"/>
+            <text x="0" y="-38" text-anchor="middle" class="node-title">Agentic Runtime</text>
+            <text x="0" y="-21" text-anchor="middle" class="node-caption">Mid Orbit · Orchestration</text>
+          </g>
+          <g transform="translate(115, 220)">
+            <circle r="22" fill="rgba(16,185,129,0.18)" stroke="var(--accent-emerald)" stroke-width="2"/>
+            <circle r="5" fill="var(--accent-emerald)"/>
+            <text x="0" y="-32" text-anchor="middle" class="node-title">Partner Webhooks</text>
+            <text x="0" y="-15" text-anchor="middle" class="node-caption">Outer Orbit · Edge Ecosystem</text>
+          </g>
+          <g transform="translate(1045, 385)">
+            <circle r="22" fill="rgba(16,185,129,0.18)" stroke="var(--accent-emerald)" stroke-width="2"/>
+            <circle r="5" fill="var(--accent-emerald)"/>
+            <text x="0" y="40" text-anchor="middle" class="node-title">Marketplace SDKs</text>
+            <text x="0" y="57" text-anchor="middle" class="node-caption">Outer Orbit · 3rd-Party Extensions</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 2: CONCENTRIC RIPPLE ==================== -->
+    <section class="slide" data-family="Core Hub & Radial" data-title="The Concentric Ripple / Target Wave">
+      <header class="slide-header">
+        <span class="metaphor-badge">02 · Core Hub &amp; Radial Metaphor</span>
+        <h1>The Concentric Ripple / Target Wave</h1>
+        <p class="subtitle">Compounding Adoption &amp; Blast Radius: Guiding the eye from the initial spark to full market wave</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <circle cx="230" cy="300" r="760" fill="rgba(245,158,11,0.04)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="8 8"/>
+          <circle cx="230" cy="300" r="560" fill="rgba(16,185,129,0.06)" stroke="var(--accent-emerald)" stroke-width="1.8"/>
+          <circle cx="230" cy="300" r="370" fill="rgba(168,85,247,0.08)" stroke="var(--accent-violet)" stroke-width="2"/>
+          <circle cx="230" cy="300" r="195" fill="rgba(56,189,248,0.12)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+          <circle cx="230" cy="300" r="68" fill="var(--accent-cyan)" fill-opacity="0.28" stroke="#BAE6FD" stroke-width="3"/>
+          <text x="230" y="296" text-anchor="middle" class="svg-title">WAVE 0</text>
+          <text x="230" y="314" text-anchor="middle" class="svg-sub">Core Spark</text>
+
+          <line x1="298" y1="300" x2="1060" y2="300" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="4 6"/>
+
+          <g transform="translate(425, 240)">
+            <circle r="10" fill="var(--accent-cyan)"/>
+            <text x="18" y="-4" class="node-title">Wave 1 · Internal Champions</text>
+            <text x="18" y="14" class="node-caption">100% engineering dogfooding &amp; zero-latency validation</text>
+          </g>
+          <g transform="translate(600, 300)">
+            <circle r="10" fill="var(--accent-violet)"/>
+            <text x="18" y="-4" class="node-title">Wave 2 · Design Partner Cohort</text>
+            <text x="18" y="14" class="node-caption">25 lighthouse enterprises co-designing production workflows</text>
+          </g>
+          <g transform="translate(790, 365)">
+            <circle r="10" fill="var(--accent-emerald)"/>
+            <text x="18" y="-4" class="node-title">Wave 3 · Self-Serve Growth Loop</text>
+            <text x="18" y="14" class="node-caption">Viral team invites &amp; automated workspace provisioning</text>
+          </g>
+          <g transform="translate(990, 215)">
+            <circle r="10" fill="var(--accent-amber)"/>
+            <text x="-18" y="-12" text-anchor="end" class="node-title">Wave 4 · Global Ecosystem Standard</text>
+            <text x="-18" y="8" text-anchor="end" class="node-caption">Third-party marketplace &amp; cross-industry standard</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 3: NESTED RUSSIAN-DOLL ONION ==================== -->
+    <section class="slide" data-family="Core Hub & Radial" data-title="The Nested Russian-Doll (Onion Sphere)">
+      <header class="slide-header">
+        <span class="metaphor-badge">03 · Core Hub &amp; Radial Metaphor</span>
+        <h1>The Nested Russian-Doll (Onion Sphere)</h1>
+        <p class="subtitle">Defense-in-Depth &amp; Architectural Containment: Cutaway translucent spheres anchored around a protected nucleus</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <circle cx="600" cy="300" r="245" fill="rgba(56,189,248,0.07)" stroke="var(--accent-cyan)" stroke-width="2"/>
+          <circle cx="600" cy="335" r="185" fill="rgba(168,85,247,0.11)" stroke="var(--accent-violet)" stroke-width="2.2"/>
+          <circle cx="600" cy="370" r="125" fill="rgba(16,185,129,0.16)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+          <circle cx="600" cy="405" r="65" fill="rgba(245,158,11,0.28)" stroke="var(--accent-amber)" stroke-width="3"/>
+
+          <text x="600" y="102" text-anchor="middle" class="node-title">SHELL 01 · Edge Zero-Trust Perimeter &amp; WAF</text>
+          <text x="600" y="192" text-anchor="middle" class="node-title">SHELL 02 · Service Mesh mTLS &amp; Policy Runtime</text>
+          <text x="600" y="282" text-anchor="middle" class="node-title">SHELL 03 · Row-Level Governance &amp; Masking</text>
+          <text x="600" y="402" text-anchor="middle" class="svg-title">NUCLEUS</text>
+          <text x="600" y="422" text-anchor="middle" class="svg-sub">HSM Encrypted Crown Jewels</text>
+
+          <line x1="355" y1="300" x2="210" y2="210" stroke="var(--accent-cyan)" stroke-width="1.5"/>
+          <circle cx="210" cy="210" r="6" fill="var(--accent-cyan)"/>
+          <text x="195" y="205" text-anchor="end" class="node-title">Global Edge Shield</text>
+          <text x="195" y="223" text-anchor="end" class="node-caption">DDoS mitigation &amp; bot telemetry</text>
+
+          <line x1="785" y1="335" x2="960" y2="250" stroke="var(--accent-violet)" stroke-width="1.5"/>
+          <circle cx="960" cy="250" r="6" fill="var(--accent-violet)"/>
+          <text x="975" y="245" class="node-title">Identity Attestation</text>
+          <text x="975" y="263" class="node-caption">Ephemeral SPIFFE workload certs</text>
+
+          <line x1="475" y1="370" x2="220" y2="410" stroke="var(--accent-emerald)" stroke-width="1.5"/>
+          <circle cx="220" cy="410" r="6" fill="var(--accent-emerald)"/>
+          <text x="205" y="405" text-anchor="end" class="node-title">Semantic Policy Guard</text>
+          <text x="205" y="423" text-anchor="end" class="node-caption">ABAC &amp; PII tokenization in flight</text>
+
+          <line x1="665" y1="405" x2="960" y2="435" stroke="var(--accent-amber)" stroke-width="1.5"/>
+          <circle cx="960" cy="435" r="6" fill="var(--accent-amber)"/>
+          <text x="975" y="430" class="node-title">Immutable Vault Core</text>
+          <text x="975" y="448" class="node-caption">Customer-managed envelope keys</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 4: POLAR CLOCK / DIAL MATRIX ==================== -->
+    <section class="slide" data-family="Core Hub & Radial" data-title="The Polar Clock / Dial Matrix">
+      <header class="slide-header">
+        <span class="metaphor-badge">04 · Core Hub &amp; Radial Metaphor</span>
+        <h1>The Polar Clock / Dial Matrix</h1>
+        <p class="subtitle">24/7 Continuous Lifecycle &amp; Domain Coverage: Curved sector wedges reinforce unbroken operational continuity</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <g transform="translate(600, 300)">
+            <circle r="245" fill="none" stroke="var(--border-subtle)" stroke-width="1.5" stroke-dasharray="4 6"/>
+            <circle r="175" fill="none" stroke="var(--accent-cyan)" stroke-width="34" stroke-dasharray="165 18" opacity="0.28"/>
+            <circle r="120" fill="none" stroke="var(--accent-violet)" stroke-width="26" stroke-dasharray="110 15" opacity="0.32"/>
+            <circle r="64" fill="var(--bg-secondary)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="svg-title">24 / 7 / 365</text>
+            <text x="0" y="16" text-anchor="middle" class="svg-sub">Autonomous Loop</text>
+            <line x1="0" y1="-70" x2="0" y2="-245" stroke="var(--accent-cyan)" stroke-width="2"/>
+            <line x1="60" y1="-35" x2="212" y2="-122" stroke="var(--accent-violet)" stroke-width="2"/>
+            <line x1="60" y1="35" x2="212" y2="122" stroke="var(--accent-emerald)" stroke-width="2"/>
+            <line x1="0" y1="70" x2="0" y2="245" stroke="var(--accent-amber)" stroke-width="2"/>
+            <line x1="-60" y1="35" x2="-212" y2="122" stroke="var(--accent-rose)" stroke-width="2"/>
+            <line x1="-60" y1="-35" x2="-212" y2="-122" stroke="var(--accent-cyan)" stroke-width="2"/>
+          </g>
+          <text x="600" y="34" text-anchor="middle" class="node-title">00:00 · Telemetry Ingestion</text>
+          <text x="860" y="155" class="node-title">04:00 · Anomaly Detection</text>
+          <text x="860" y="173" class="node-caption">Real-time drift scoring</text>
+          <text x="860" y="445" class="node-title">08:00 · Root-Cause Triage</text>
+          <text x="860" y="463" class="node-caption">Automated blast-radius graph</text>
+          <text x="600" y="578" text-anchor="middle" class="node-title">12:00 · Self-Healing Patch</text>
+          <text x="340" y="445" text-anchor="end" class="node-title">16:00 · Canary Verification</text>
+          <text x="340" y="463" text-anchor="end" class="node-caption">Synthetic traffic replay</text>
+          <text x="340" y="155" text-anchor="end" class="node-title">20:00 · Policy Hardening</text>
+          <text x="340" y="173" text-anchor="end" class="node-caption">Closed-loop model retraining</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 5: SIGMOID S-CURVE ==================== -->
+    <section class="slide" data-family="Trajectory & Momentum" data-title="The Sigmoid (S-Curve) Inflection Path">
+      <header class="slide-header">
+        <span class="metaphor-badge">05 · Trajectory, Growth &amp; Momentum</span>
+        <h1>The Sigmoid (S-Curve) Inflection Path</h1>
+        <p class="subtitle">Phase Transition &amp; Hyper-Growth: Conveying latency, tipping point, and exponential acceleration</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <defs>
+            <linearGradient id="scurveGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="var(--accent-cyan)"/>
+              <stop offset="50%" stop-color="var(--accent-violet)"/>
+              <stop offset="100%" stop-color="var(--accent-emerald)"/>
+            </linearGradient>
+          </defs>
+          <path d="M 100 490 C 420 490, 480 470, 600 295 C 720 120, 790 95, 1100 95 L 1100 540 L 100 540 Z" fill="url(#scurveGrad)" opacity="0.1"/>
+          <path d="M 100 490 C 420 490, 480 470, 600 295 C 720 120, 790 95, 1100 95" fill="none" stroke="url(#scurveGrad)" stroke-width="6" stroke-linecap="round"/>
+          <line x1="460" y1="490" x2="740" y2="100" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+          <g transform="translate(210, 488)">
+            <circle r="14" fill="var(--bg-primary)" stroke="var(--accent-cyan)" stroke-width="4"/>
+            <text x="0" y="-26" text-anchor="middle" class="node-title">1. Foundation Latency</text>
+            <text x="0" y="-8" text-anchor="middle" class="node-caption">Architecture &amp; data plumbing</text>
+          </g>
+          <g transform="translate(465, 418)">
+            <circle r="16" fill="var(--accent-amber)" stroke="#FFF" stroke-width="3"/>
+            <text x="-22" y="-18" text-anchor="end" class="node-title">2. The Tipping Point</text>
+            <text x="-22" y="0" text-anchor="end" class="node-caption">Marginal cost drops below threshold</text>
+          </g>
+          <g transform="translate(635, 240)">
+            <circle r="16" fill="var(--bg-primary)" stroke="var(--accent-violet)" stroke-width="4"/>
+            <text x="26" y="-4" class="node-title">3. Sigmoid Acceleration</text>
+            <text x="26" y="14" class="node-caption">10x autonomous flywheel scale</text>
+          </g>
+          <g transform="translate(990, 97)">
+            <circle r="16" fill="var(--bg-primary)" stroke="var(--accent-emerald)" stroke-width="4"/>
+            <text x="0" y="36" text-anchor="middle" class="node-title">4. Category Dominance</text>
+            <text x="0" y="54" text-anchor="middle" class="node-caption">High-margin asymptote &amp; next S-curve</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 6: ROLLERCOASTER SLINGSHOT ==================== -->
+    <section class="slide" data-family="Trajectory & Momentum" data-title="The Rollercoaster / Momentum Slingshot">
+      <header class="slide-header">
+        <span class="metaphor-badge">06 · Trajectory, Growth &amp; Momentum</span>
+        <h1>The Rollercoaster / Momentum Slingshot</h1>
+        <p class="subtitle">The J-Curve Trough: Framing deliberate refactoring &amp; investment dips as kinetic energy for explosive ROI</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <line x1="80" y1="350" x2="1120" y2="350" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="6 6"/>
+          <text x="1110" y="338" text-anchor="end" class="node-caption">Status Quo Trajectory (Stagnant Linear Drift)</text>
+          <path d="M 90 350 C 210 350, 290 525, 445 525 C 615 525, 725 115, 1090 80" fill="none" stroke="var(--accent-cyan)" stroke-width="6" stroke-linecap="round"/>
+
+          <g transform="translate(150, 350)">
+            <circle r="12" fill="var(--accent-cyan)"/>
+            <text x="0" y="-22" text-anchor="middle" class="node-title">Legacy Freeze</text>
+            <text x="0" y="-5" text-anchor="middle" class="node-caption">Decommission monolith</text>
+          </g>
+          <g transform="translate(445, 525)">
+            <circle r="28" fill="rgba(244,63,94,0.2)" stroke="var(--accent-rose)" stroke-width="2.5"/>
+            <circle r="11" fill="var(--accent-rose)"/>
+            <text x="0" y="48" text-anchor="middle" class="node-title">The Investment Trough (Gravity Assist)</text>
+            <text x="0" y="66" text-anchor="middle" class="node-caption">Peak migration effort &amp; temporary velocity dip</text>
+          </g>
+          <g transform="translate(658, 350)">
+            <circle r="14" fill="var(--accent-amber)"/>
+            <text x="22" y="24" class="node-title">Breakeven Crossover</text>
+            <text x="22" y="42" class="node-caption">Automated pipelines surpass legacy speed</text>
+          </g>
+          <g transform="translate(1035, 86)">
+            <circle r="18" fill="var(--accent-emerald)"/>
+            <text x="-24" y="6" text-anchor="end" class="node-title">Escape Velocity ROI (8.4x)</text>
+            <text x="-24" y="24" text-anchor="end" class="node-caption">Zero technical debt + compounding velocity</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 7: ARCHIMEDEAN SPIRAL ==================== -->
+    <section class="slide" data-family="Trajectory & Momentum" data-title="The Ascending Archimedean Spiral">
+      <header class="slide-header">
+        <span class="metaphor-badge">07 · Trajectory, Growth &amp; Momentum</span>
+        <h1>The Ascending Archimedean Spiral</h1>
+        <p class="subtitle">Iterative Sprints + Upward Scale: Combining cyclical feedback loops with expanding organizational reach</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <line x1="600" y1="560" x2="600" y2="45" stroke="var(--accent-cyan)" stroke-width="3" stroke-dasharray="6 6"/>
+          <polygon points="600,32 590,54 610,54" fill="var(--accent-cyan)"/>
+
+          <ellipse cx="600" cy="475" rx="165" ry="46" fill="rgba(56,189,248,0.08)" stroke="var(--accent-cyan)" stroke-width="3.5"/>
+          <path d="M 765 475 C 830 420, 310 380, 315 320" fill="none" stroke="var(--accent-violet)" stroke-width="3" stroke-dasharray="6 4"/>
+          <ellipse cx="600" cy="320" rx="285" ry="66" fill="rgba(168,85,247,0.08)" stroke="var(--accent-violet)" stroke-width="4"/>
+          <path d="M 885 320 C 960 250, 180 220, 195 155" fill="none" stroke="var(--accent-emerald)" stroke-width="3" stroke-dasharray="6 4"/>
+          <ellipse cx="600" cy="155" rx="405" ry="82" fill="rgba(16,185,129,0.08)" stroke="var(--accent-emerald)" stroke-width="4.5"/>
+
+          <g transform="translate(765, 475)">
+            <circle r="11" fill="var(--accent-cyan)"/>
+            <text x="22" y="-2" class="node-title">Loop 1 · Team Prototype Flywheel</text>
+            <text x="22" y="16" class="node-caption">Build → Measure → Learn on single workflow</text>
+          </g>
+          <g transform="translate(315, 320)">
+            <circle r="12" fill="var(--accent-violet)"/>
+            <text x="-22" y="-2" text-anchor="end" class="node-title">Loop 2 · Cross-Domain Telemetry</text>
+            <text x="-22" y="16" text-anchor="end" class="node-caption">Shared semantic layer + multi-team agents</text>
+          </g>
+          <g transform="translate(1005, 155)">
+            <circle r="14" fill="var(--accent-emerald)"/>
+            <text x="-22" y="-22" text-anchor="end" class="node-title">Loop 3 · Autonomous Enterprise Flywheel</text>
+            <text x="-22" y="-4" text-anchor="end" class="node-caption">Self-optimizing operations across all business units</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 8: ROCKET BOOSTER MULTI-STAGE ==================== -->
+    <section class="slide" data-family="Trajectory & Momentum" data-title="The Rocket Booster Multi-Stage Vector">
+      <header class="slide-header">
+        <span class="metaphor-badge">08 · Trajectory, Growth &amp; Momentum</span>
+        <h1>The Rocket Booster Multi-Stage Vector</h1>
+        <p class="subtitle">Strategic Horizons 1, 2 &amp; 3: Visualizing the exact ignition catalyst required to transition between stages</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <path d="M 90 520 Q 520 420, 1090 95" fill="none" stroke="var(--border-subtle)" stroke-width="4" stroke-dasharray="10 8"/>
+          <g transform="translate(250, 465) rotate(-14)">
+            <rect x="-110" y="-36" width="220" height="72" rx="36" fill="rgba(56,189,248,0.16)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">STAGE I · HORIZON 1</text>
+            <text x="0" y="16" text-anchor="middle" class="node-caption">Core Cash Engine &amp; Standardization</text>
+          </g>
+          <circle cx="415" cy="415" r="14" fill="var(--accent-amber)"/>
+          <text x="415" y="452" text-anchor="middle" class="node-caption">Catalyst 1: API Unification</text>
+
+          <g transform="translate(590, 330) rotate(-25)">
+            <rect x="-115" y="-36" width="230" height="72" rx="36" fill="rgba(168,85,247,0.18)" stroke="var(--accent-violet)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">STAGE II · HORIZON 2</text>
+            <text x="0" y="16" text-anchor="middle" class="node-caption">AI Workflow Expansion &amp; Upsell</text>
+          </g>
+          <circle cx="760" cy="240" r="14" fill="var(--accent-amber)"/>
+          <text x="775" y="275" class="node-caption">Catalyst 2: Autonomous Pricing</text>
+
+          <g transform="translate(945, 145) rotate(-32)">
+            <rect x="-115" y="-36" width="230" height="72" rx="36" fill="rgba(16,185,129,0.22)" stroke="var(--accent-emerald)" stroke-width="3"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">STAGE III · HORIZON 3</text>
+            <text x="0" y="16" text-anchor="middle" class="node-caption">Autonomous Ecosystem Network</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 9: RIVER DELTA CONFLUENCE ==================== -->
+    <section class="slide" data-family="Organic & Flow" data-title="The River Delta / Confluence Flow">
+      <header class="slide-header">
+        <span class="metaphor-badge">09 · Organic, Flow &amp; Convergence</span>
+        <h1>The River Delta / Confluence Flow</h1>
+        <p class="subtitle">Multi-Source Pipeline Consolidation: Replacing rigid blocky ETL diagrams with fluid organic tributaries</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <path d="M 90 105 C 290 105, 360 275, 575 300" fill="none" stroke="var(--accent-cyan)" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 90 235 C 280 235, 380 290, 575 300" fill="none" stroke="var(--accent-violet)" stroke-width="14" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 90 365 C 280 365, 380 310, 575 300" fill="none" stroke="var(--accent-emerald)" stroke-width="14" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 90 495 C 290 495, 360 325, 575 300" fill="none" stroke="var(--accent-amber)" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+
+          <path d="M 575 300 C 760 300, 880 285, 1110 300" fill="none" stroke="var(--accent-cyan)" stroke-width="38" stroke-linecap="round" opacity="0.35"/>
+          <path d="M 575 300 C 760 300, 880 285, 1110 300" fill="none" stroke="var(--accent-emerald)" stroke-width="16" stroke-linecap="round" stroke-dasharray="14 10"/>
+
+          <circle cx="575" cy="300" r="54" fill="var(--bg-secondary)" stroke="var(--accent-cyan)" stroke-width="3.5"/>
+          <text x="575" y="296" text-anchor="middle" class="svg-title">CONFLUENCE</text>
+          <text x="575" y="314" text-anchor="middle" class="svg-sub">Schema Harmonizer</text>
+
+          <text x="105" y="85" class="node-title">ERP &amp; Transactional Ledgers</text>
+          <text x="105" y="215" class="node-title">Clickstream &amp; Product Telemetry</text>
+          <text x="105" y="345" class="node-title">Unstructured Calls &amp; Docs</text>
+          <text x="105" y="475" class="node-title">3rd-Party Market Feeds</text>
+
+          <text x="950" y="245" text-anchor="middle" class="node-title">Unified Lakehouse Stream</text>
+          <text x="950" y="265" text-anchor="middle" class="node-caption">Sub-second governed feature &amp; vector store</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 10: DEEP ROOT & CANOPY TREE ==================== -->
+    <section class="slide" data-family="Organic & Flow" data-title="The Deep Root & Canopy Tree Architecture">
+      <header class="slide-header">
+        <span class="metaphor-badge">10 · Organic, Flow &amp; Convergence</span>
+        <h1>The Deep Root &amp; Canopy Tree Architecture</h1>
+        <p class="subtitle">Invisible Governance Roots → Core Platform Trunk → Visible Business Applications Canopy</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <line x1="100" y1="365" x2="1100" y2="365" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="8 6"/>
+          <text x="115" y="352" class="node-caption">▲ VISIBLE OUTCOMES (CANOPY)</text>
+          <text x="115" y="388" class="node-caption">▼ INVISIBLE FOUNDATION (ROOT SYSTEM)</text>
+
+          <path d="M 600 365 C 580 430, 390 480, 250 535" fill="none" stroke="var(--accent-amber)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 600 365 C 590 440, 510 500, 455 555" fill="none" stroke="var(--accent-amber)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 600 365 C 610 440, 690 500, 745 555" fill="none" stroke="var(--accent-amber)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 600 365 C 620 430, 810 480, 950 535" fill="none" stroke="var(--accent-amber)" stroke-width="6" stroke-linecap="round"/>
+
+          <path d="M 565 365 C 575 300, 575 260, 555 215 L 645 215 C 625 260, 625 300, 635 365 Z" fill="var(--accent-violet)" opacity="0.45" stroke="var(--accent-violet)" stroke-width="2"/>
+          <text x="600" y="300" text-anchor="middle" class="svg-title">CORE TRUNK</text>
+          <text x="600" y="318" text-anchor="middle" class="svg-sub">Unified Semantic Engine</text>
+
+          <circle cx="370" cy="155" r="88" fill="rgba(16,185,129,0.16)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+          <text x="370" y="150" text-anchor="middle" class="node-title">Customer AI Copilot</text>
+          <text x="370" y="168" text-anchor="middle" class="node-caption">Self-serve resolution</text>
+
+          <circle cx="600" cy="115" r="98" fill="rgba(56,189,248,0.18)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+          <text x="600" y="110" text-anchor="middle" class="node-title">Executive Cockpit</text>
+          <text x="600" y="128" text-anchor="middle" class="node-caption">Live P&amp;L forecasting</text>
+
+          <circle cx="830" cy="155" r="88" fill="rgba(16,185,129,0.16)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+          <text x="830" y="150" text-anchor="middle" class="node-title">Partner Data APIs</text>
+          <text x="830" y="168" text-anchor="middle" class="node-caption">Monetized data products</text>
+
+          <text x="250" y="565" text-anchor="middle" class="node-title">Data Contracts</text>
+          <text x="455" y="582" text-anchor="middle" class="node-title">Zero-Trust IAM</text>
+          <text x="745" y="582" text-anchor="middle" class="node-title">Lineage &amp; Audit</text>
+          <text x="950" y="565" text-anchor="middle" class="node-title">Cloud FinOps</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 11: HOURGLASS CHOKE-POINT FUNNEL ==================== -->
+    <section class="slide" data-family="Organic & Flow" data-title="The Hourglass / Choke-Point Funnel">
+      <header class="slide-header">
+        <span class="metaphor-badge">11 · Organic, Flow &amp; Convergence</span>
+        <h1>The Hourglass / Choke-Point Funnel</h1>
+        <p class="subtitle">High-Volume Signal Curation: Wide noisy intake → Strict governance choke-point → Precision distribution fan</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <path d="M 140 85 C 340 85, 480 255, 560 275 L 640 275 C 720 255, 860 85, 1060 85" fill="none" stroke="var(--accent-cyan)" stroke-width="3.5"/>
+          <path d="M 140 515 C 340 515, 480 345, 560 325 L 640 325 C 720 345, 860 515, 1060 515" fill="none" stroke="var(--accent-emerald)" stroke-width="3.5"/>
+
+          <circle cx="240" cy="185" r="24" fill="rgba(56,189,248,0.2)" stroke="var(--accent-cyan)" stroke-width="2"/>
+          <text x="240" y="190" text-anchor="middle" class="node-caption">Raw Logs</text>
+          <circle cx="200" cy="300" r="28" fill="rgba(56,189,248,0.2)" stroke="var(--accent-cyan)" stroke-width="2"/>
+          <text x="200" y="305" text-anchor="middle" class="node-caption">PDFs / Slack</text>
+          <circle cx="240" cy="415" r="24" fill="rgba(56,189,248,0.2)" stroke="var(--accent-cyan)" stroke-width="2"/>
+          <text x="240" y="420" text-anchor="middle" class="node-caption">SQL Dumps</text>
+
+          <circle cx="600" cy="300" r="56" fill="rgba(245,158,11,0.22)" stroke="var(--accent-amber)" stroke-width="3.5"/>
+          <text x="600" y="295" text-anchor="middle" class="svg-title">CHOKE-POINT</text>
+          <text x="600" y="315" text-anchor="middle" class="svg-sub">Rerank &amp; Guardrail</text>
+
+          <line x1="656" y1="300" x2="960" y2="155" stroke="var(--accent-emerald)" stroke-width="2" stroke-dasharray="5 5"/>
+          <line x1="656" y1="300" x2="985" y2="300" stroke="var(--accent-emerald)" stroke-width="2" stroke-dasharray="5 5"/>
+          <line x1="656" y1="300" x2="960" y2="445" stroke="var(--accent-emerald)" stroke-width="2" stroke-dasharray="5 5"/>
+
+          <text x="980" y="150" class="node-title">Verified Board KPIs</text>
+          <text x="980" y="168" class="node-caption">Zero-hallucination citations</text>
+          <text x="1000" y="296" class="node-title">Automated Action Triggers</text>
+          <text x="1000" y="314" class="node-caption">Policy-approved workflows</text>
+          <text x="980" y="440" class="node-title">Customer Facing Answers</text>
+          <text x="980" y="458" class="node-caption">PII-redacted &amp; audited</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 12: DNA DOUBLE HELIX ==================== -->
+    <section class="slide" data-family="Organic & Flow" data-title="The DNA Double Helix Pipeline">
+      <header class="slide-header">
+        <span class="metaphor-badge">12 · Organic, Flow &amp; Convergence</span>
+        <h1>The DNA Double Helix Pipeline</h1>
+        <p class="subtitle">Coupled Dual Workstreams: Business Strategy &amp; Engineering Execution intertwined with periodic sync rungs</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <line x1="160" y1="205" x2="160" y2="395" stroke="var(--border-subtle)" stroke-width="3"/>
+          <line x1="400" y1="420" x2="400" y2="180" stroke="var(--border-subtle)" stroke-width="3"/>
+          <line x1="720" y1="180" x2="720" y2="420" stroke="var(--border-subtle)" stroke-width="3"/>
+          <line x1="1000" y1="410" x2="1000" y2="190" stroke="var(--border-subtle)" stroke-width="3"/>
+
+          <path d="M 80 180 C 210 180, 270 420, 400 420 C 530 420, 590 180, 720 180 C 850 180, 910 420, 1080 420" fill="none" stroke="var(--accent-cyan)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M 80 420 C 210 420, 270 180, 400 180 C 530 180, 590 420, 720 420 C 850 420, 910 180, 1080 180" fill="none" stroke="var(--accent-violet)" stroke-width="7" stroke-linecap="round"/>
+
+          <g transform="translate(245, 300)">
+            <circle r="18" fill="var(--accent-emerald)"/>
+            <text x="0" y="-28" text-anchor="middle" class="node-title">Sync Gate 1</text>
+            <text x="0" y="-10" text-anchor="middle" class="node-caption">Domain Schema Lock</text>
+          </g>
+          <g transform="translate(560, 300)">
+            <circle r="18" fill="var(--accent-emerald)"/>
+            <text x="0" y="-28" text-anchor="middle" class="node-title">Sync Gate 2</text>
+            <text x="0" y="-10" text-anchor="middle" class="node-caption">Pilot Telemetry Review</text>
+          </g>
+          <g transform="translate(875, 300)">
+            <circle r="18" fill="var(--accent-emerald)"/>
+            <text x="0" y="-28" text-anchor="middle" class="node-title">Sync Gate 3</text>
+            <text x="0" y="-10" text-anchor="middle" class="node-caption">GA Commercial Launch</text>
+          </g>
+
+          <text x="90" y="145" class="node-title" style="fill:var(--accent-cyan)">STRAND A · Product &amp; GTM Strategy</text>
+          <text x="90" y="465" class="node-title" style="fill:var(--accent-violet)">STRAND B · AI Platform Engineering</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 13: OVERLAPPING OPTICAL LENS ==================== -->
+    <section class="slide" data-family="Synergy & Spatial Network" data-title="The Overlapping Optical Lens (Luminous Venn)">
+      <header class="slide-header">
+        <span class="metaphor-badge">13 · Overlap, Synergy &amp; Spatial Network</span>
+        <h1>The Overlapping Optical Lens (Luminous Venn)</h1>
+        <p class="subtitle">Additive Optical Blending: Intersections brighten naturally to spotlight the strategic sweet spot</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <circle cx="495" cy="235" r="175" fill="rgba(56,189,248,0.32)" stroke="var(--accent-cyan)" stroke-width="2.5" class="lens-circle"/>
+          <circle cx="705" cy="235" r="175" fill="rgba(168,85,247,0.32)" stroke="var(--accent-violet)" stroke-width="2.5" class="lens-circle"/>
+          <circle cx="600" cy="395" r="175" fill="rgba(16,185,129,0.32)" stroke="var(--accent-emerald)" stroke-width="2.5" class="lens-circle"/>
+
+          <circle cx="600" cy="288" r="24" fill="#FFFFFF" stroke="var(--accent-amber)" stroke-width="4"/>
+          <line x1="624" y1="288" x2="920" y2="288" stroke="var(--accent-amber)" stroke-width="2"/>
+          <text x="935" y="282" class="node-title" style="fill:var(--accent-amber)">THE STRATEGIC MOAT</text>
+          <text x="935" y="302" class="node-caption">Autonomous vertical workflows competitors cannot copy</text>
+
+          <text x="395" y="165" text-anchor="middle" class="node-title">Proprietary Telemetry</text>
+          <text x="395" y="185" text-anchor="middle" class="node-caption">10+ yrs domain edge cases</text>
+
+          <text x="805" y="165" text-anchor="middle" class="node-title">Agentic Reasoning</text>
+          <text x="805" y="185" text-anchor="middle" class="node-caption">Multi-step tool execution</text>
+
+          <text x="600" y="505" text-anchor="middle" class="node-title">Embedded UX Distribution</text>
+          <text x="600" y="525" text-anchor="middle" class="node-caption">Inside daily operator workflow</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 14: CONSTELLATION NEURAL MESH ==================== -->
+    <section class="slide" data-family="Synergy & Spatial Network" data-title="The Constellation / Synaptic Neural Mesh">
+      <header class="slide-header">
+        <span class="metaphor-badge">14 · Overlap, Synergy &amp; Spatial Network</span>
+        <h1>The Constellation / Synaptic Neural Mesh</h1>
+        <p class="subtitle">Decentralized Multi-Agent Topology: Line weights and bezier links encode live collaboration strength</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <path d="M 240 280 Q 420 140, 580 220" fill="none" stroke="var(--accent-cyan)" stroke-width="4" opacity="0.8"/>
+          <path d="M 240 280 Q 410 380, 550 430" fill="none" stroke="var(--accent-violet)" stroke-width="2.5" stroke-dasharray="6 4"/>
+          <path d="M 580 220 Q 760 190, 920 270" fill="none" stroke="var(--accent-emerald)" stroke-width="4" opacity="0.85"/>
+          <path d="M 550 430 Q 740 420, 920 270" fill="none" stroke="var(--accent-cyan)" stroke-width="3"/>
+          <path d="M 580 220 L 550 430" fill="none" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="4 6"/>
+          <path d="M 240 280 L 140 140" fill="none" stroke="var(--border-subtle)" stroke-width="2"/>
+          <path d="M 920 270 L 1060 150" fill="none" stroke="var(--border-subtle)" stroke-width="2"/>
+          <path d="M 920 270 L 1050 430" fill="none" stroke="var(--border-subtle)" stroke-width="2"/>
+
+          <g transform="translate(240, 280)">
+            <circle r="34" fill="rgba(56,189,248,0.22)" stroke="var(--accent-cyan)" stroke-width="3"/>
+            <text x="0" y="54" text-anchor="middle" class="node-title">Planner Agent</text>
+            <text x="0" y="72" text-anchor="middle" class="node-caption">Decomposes intent</text>
+          </g>
+          <g transform="translate(580, 220)">
+            <circle r="40" fill="rgba(16,185,129,0.22)" stroke="var(--accent-emerald)" stroke-width="3.5"/>
+            <text x="0" y="-52" text-anchor="middle" class="node-title">Knowledge Graph Mesh</text>
+            <text x="0" y="-34" text-anchor="middle" class="node-caption">High-bandwidth synaptic hub</text>
+          </g>
+          <g transform="translate(550, 430)">
+            <circle r="30" fill="rgba(168,85,247,0.22)" stroke="var(--accent-violet)" stroke-width="2.5"/>
+            <text x="0" y="50" text-anchor="middle" class="node-title">Verifier Critic</text>
+            <text x="0" y="68" text-anchor="middle" class="node-caption">Policy &amp; safety audit</text>
+          </g>
+          <g transform="translate(920, 270)">
+            <circle r="36" fill="rgba(245,158,11,0.22)" stroke="var(--accent-amber)" stroke-width="3"/>
+            <text x="0" y="56" text-anchor="middle" class="node-title">Execution Swarm</text>
+            <text x="0" y="74" text-anchor="middle" class="node-caption">Parallel API workers</text>
+          </g>
+
+          <circle cx="140" cy="140" r="14" fill="var(--accent-cyan)"/>
+          <text x="140" y="115" text-anchor="middle" class="node-caption">Webhook Trigger</text>
+          <circle cx="1060" cy="150" r="14" fill="var(--accent-emerald)"/>
+          <text x="1060" y="125" text-anchor="middle" class="node-caption">PR Deployment</text>
+          <circle cx="1050" cy="430" r="14" fill="var(--accent-amber)"/>
+          <text x="1050" y="460" text-anchor="middle" class="node-caption">CRM Sync</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 15: MAGNETIC FIELD DIPOLE ==================== -->
+    <section class="slide" data-family="Synergy & Spatial Network" data-title="The Magnetic Field / Dipole Dynamic">
+      <header class="slide-header">
+        <span class="metaphor-badge">15 · Overlap, Synergy &amp; Spatial Network</span>
+        <h1>The Magnetic Field / Dipole Dynamic</h1>
+        <p class="subtitle">Balancing Productive Organizational Tension: Central Governance vs. Federated Product Velocity</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <path d="M 330 250 C 480 95, 720 95, 870 250" fill="none" stroke="var(--accent-cyan)" stroke-width="2.5" stroke-dasharray="8 6"/>
+          <path d="M 300 225 C 450 15, 750 15, 900 225" fill="none" stroke="var(--accent-violet)" stroke-width="2" opacity="0.6"/>
+          <path d="M 330 350 C 480 505, 720 505, 870 350" fill="none" stroke="var(--accent-amber)" stroke-width="2.5" stroke-dasharray="8 6"/>
+          <path d="M 300 375 C 450 585, 750 585, 900 375" fill="none" stroke="var(--accent-emerald)" stroke-width="2" opacity="0.6"/>
+
+          <circle cx="270" cy="300" r="76" fill="rgba(56,189,248,0.22)" stroke="var(--accent-cyan)" stroke-width="3.5"/>
+          <text x="270" y="294" text-anchor="middle" class="svg-title">NORTH POLE (+)</text>
+          <text x="270" y="314" text-anchor="middle" class="svg-sub">Central Governance</text>
+
+          <circle cx="930" cy="300" r="76" fill="rgba(245,158,11,0.22)" stroke="var(--accent-amber)" stroke-width="3.5"/>
+          <text x="930" y="294" text-anchor="middle" class="svg-title">SOUTH POLE (–)</text>
+          <text x="930" y="314" text-anchor="middle" class="svg-sub">Federated Agility</text>
+
+          <text x="600" y="115" text-anchor="middle" class="node-title">Upper Flux · Automated Golden Paths</text>
+          <text x="600" y="135" text-anchor="middle" class="node-caption">Pre-approved guardrails let squads ship in minutes without manual CAB review</text>
+
+          <text x="600" y="485" text-anchor="middle" class="node-title">Lower Flux · Federated Data Contracts</text>
+          <text x="600" y="505" text-anchor="middle" class="node-caption">Domain teams own local schemas while publishing SLA-verified enterprise products</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 16: STEPPING-STONE ISLAND CHAIN ==================== -->
+    <section class="slide" data-family="Synergy & Spatial Network" data-title="The Stepping-Stone Island Chain">
+      <header class="slide-header">
+        <span class="metaphor-badge">16 · Overlap, Synergy &amp; Spatial Network</span>
+        <h1>The Stepping-Stone Island Chain</h1>
+        <p class="subtitle">Progressive Modernization Journey: Organic milestone pads replacing boxy Gantt charts</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <path d="M 140 450 C 310 510, 410 180, 600 285 C 790 390, 910 140, 1060 175" fill="none" stroke="var(--accent-cyan)" stroke-width="3.5" stroke-dasharray="8 8"/>
+
+          <g transform="translate(150, 450) rotate(-8)">
+            <ellipse rx="82" ry="44" fill="rgba(56,189,248,0.16)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">Stone 01 · Audit</text>
+            <text x="0" y="14" text-anchor="middle" class="node-caption">Baseline inventory</text>
+          </g>
+          <g transform="translate(375, 330) rotate(-18)">
+            <ellipse rx="86" ry="46" fill="rgba(56,189,248,0.18)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">Stone 02 · Strangle</text>
+            <text x="0" y="14" text-anchor="middle" class="node-caption">Wrap legacy APIs</text>
+          </g>
+          <g transform="translate(600, 285) rotate(10)">
+            <ellipse rx="90" ry="48" fill="rgba(168,85,247,0.2)" stroke="var(--accent-violet)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">Stone 03 · Lakehouse</text>
+            <text x="0" y="14" text-anchor="middle" class="node-caption">Real-time CDC sync</text>
+          </g>
+          <g transform="translate(825, 290) rotate(-15)">
+            <ellipse rx="88" ry="46" fill="rgba(16,185,129,0.2)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">Stone 04 · Copilot</text>
+            <text x="0" y="14" text-anchor="middle" class="node-caption">Human-in-the-loop AI</text>
+          </g>
+          <g transform="translate(1045, 175) rotate(-5)">
+            <ellipse rx="96" ry="52" fill="rgba(245,158,11,0.26)" stroke="var(--accent-amber)" stroke-width="3.5"/>
+            <text x="0" y="-4" text-anchor="middle" class="node-title">Stone 05 · Autonomous</text>
+            <text x="0" y="14" text-anchor="middle" class="node-caption">Zero-touch operations</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 17: TIP-OF-THE-ICEBERG ==================== -->
+    <section class="slide" data-family="Depth & Perspective" data-title="The Tip-of-the-Iceberg Cross Section">
+      <header class="slide-header">
+        <span class="metaphor-badge">17 · Layered, Depth &amp; Perspective</span>
+        <h1>The Tip-of-the-Iceberg Cross Section</h1>
+        <p class="subtitle">10% Visible UI vs. 90% Submerged Engineering: Exposing the hidden architecture behind effortless UX</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <rect x="60" y="200" width="1080" height="380" rx="24" fill="rgba(2, 132, 199, 0.08)"/>
+          <polygon points="510,200 565,75 615,98 648,68 695,200" fill="rgba(56,189,248,0.35)" stroke="#BAE6FD" stroke-width="3"/>
+          <polygon points="510,200 355,295 315,435 435,555 605,575 785,545 880,415 835,280 695,200" fill="rgba(168,85,247,0.16)" stroke="var(--accent-violet)" stroke-width="2.5"/>
+          <path d="M 50 200 Q 325 188, 600 200 T 1150 200" fill="none" stroke="var(--accent-cyan)" stroke-width="4"/>
+
+          <text x="860" y="120" class="node-title">ABOVE WATER (10%) · Conversational UI</text>
+          <text x="860" y="140" class="node-caption">Single prompt bar &amp; instant streaming answer</text>
+          <line x1="665" y1="125" x2="845" y2="125" stroke="var(--accent-cyan)" stroke-width="1.5"/>
+
+          <text x="600" y="285" text-anchor="middle" class="node-title">STRATUM 1 · Hybrid Vector + Graph Retrieval &amp; Reranking</text>
+          <text x="600" y="385" text-anchor="middle" class="node-title">STRATUM 2 · Row-Level RBAC, PII Scrubbing &amp; Deterministic Guardrails</text>
+          <text x="600" y="485" text-anchor="middle" class="node-title">STRATUM 3 · Continuous Eval Harnesses, Lineage &amp; Multi-Region Failover</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 18: ISOMETRIC LAYERED GLASS SANDWICH ==================== -->
+    <section class="slide" data-family="Depth & Perspective" data-title="The Isometric Layered Glass Sandwich">
+      <header class="slide-header">
+        <span class="metaphor-badge">18 · Layered, Depth &amp; Perspective</span>
+        <h1>The Isometric Layered Glass Sandwich</h1>
+        <p class="subtitle">3D Perspective Tech Stack: Translucent discs pierced by vertical telemetry &amp; identity light rays</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <line x1="420" y1="70" x2="420" y2="540" stroke="var(--accent-cyan)" stroke-width="3" stroke-dasharray="6 6"/>
+          <line x1="690" y1="70" x2="690" y2="540" stroke="var(--accent-amber)" stroke-width="3" stroke-dasharray="6 6"/>
+
+          <ellipse cx="555" cy="475" rx="280" ry="60" fill="rgba(16,185,129,0.14)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+          <text x="555" y="480" text-anchor="middle" class="node-title">LAYER 01 · Cloud Compute &amp; GPU Cluster Fabric</text>
+
+          <ellipse cx="555" cy="360" rx="280" ry="60" fill="rgba(168,85,247,0.16)" stroke="var(--accent-violet)" stroke-width="2.5"/>
+          <text x="555" y="365" text-anchor="middle" class="node-title">LAYER 02 · Unified Iceberg Lakehouse &amp; Vector Store</text>
+
+          <ellipse cx="555" cy="245" rx="280" ry="60" fill="rgba(56,189,248,0.18)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+          <text x="555" y="250" text-anchor="middle" class="node-title">LAYER 03 · Semantic Ontology &amp; Agent Tool Registry</text>
+
+          <ellipse cx="555" cy="130" rx="280" ry="60" fill="rgba(245,158,11,0.2)" stroke="var(--accent-amber)" stroke-width="3"/>
+          <text x="555" y="135" text-anchor="middle" class="node-title">LAYER 04 · Omnichannel Copilot &amp; Decision Surfaces</text>
+
+          <text x="385" y="60" text-anchor="end" class="node-caption" style="fill:var(--accent-cyan)">▼ Zero-Trust Identity Ray</text>
+          <text x="725" y="60" class="node-caption" style="fill:var(--accent-amber)">▼ OpenTelemetry Trace Ray</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 19: SPOTLIGHT FOCAL APERTURE ==================== -->
+    <section class="slide" data-family="Depth & Perspective" data-title="The Spotlight Focal Aperture">
+      <header class="slide-header">
+        <span class="metaphor-badge">19 · Layered, Depth &amp; Perspective</span>
+        <h1>The Spotlight Focal Aperture</h1>
+        <p class="subtitle">Architectural Zoom-In: Dimming peripheral modules while illuminating a critical subsystem in high definition</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <g opacity="0.24">
+            <circle cx="210" cy="430" r="48" fill="none" stroke="var(--text-secondary)" stroke-width="2"/>
+            <text x="210" y="435" text-anchor="middle" class="node-caption">Legacy CRM</text>
+            <circle cx="430" cy="480" r="48" fill="none" stroke="var(--text-secondary)" stroke-width="2"/>
+            <text x="430" y="485" text-anchor="middle" class="node-caption">Batch ETL</text>
+            <circle cx="1040" cy="160" r="48" fill="none" stroke="var(--text-secondary)" stroke-width="2"/>
+            <text x="1040" y="165" text-anchor="middle" class="node-caption">Archive Cold Store</text>
+          </g>
+
+          <polygon points="155,120 675,115 905,465 555,485" fill="rgba(56,189,248,0.12)"/>
+          <circle cx="155" cy="120" r="24" fill="var(--accent-cyan)"/>
+          <text x="155" y="80" text-anchor="middle" class="node-title">Optical Focus Origin</text>
+
+          <circle cx="745" cy="305" r="185" fill="var(--bg-secondary)" stroke="var(--accent-cyan)" stroke-width="4"/>
+          <text x="745" y="175" text-anchor="middle" class="svg-title" style="fill:var(--accent-cyan)">ZOOMED SUBSYSTEM · REAL-TIME GUARDRAIL ENGINE</text>
+
+          <circle cx="655" cy="295" r="44" fill="rgba(56,189,248,0.2)" stroke="var(--accent-cyan)" stroke-width="2"/>
+          <text x="655" y="299" text-anchor="middle" class="node-caption">PII Scanner</text>
+
+          <circle cx="755" cy="390" r="44" fill="rgba(168,85,247,0.2)" stroke="var(--accent-violet)" stroke-width="2"/>
+          <text x="755" y="394" text-anchor="middle" class="node-caption">Policy OPA</text>
+
+          <circle cx="840" cy="285" r="44" fill="rgba(16,185,129,0.2)" stroke="var(--accent-emerald)" stroke-width="2"/>
+          <text x="840" y="289" text-anchor="middle" class="node-caption">Hallucination Check</text>
+
+          <path d="M 695 305 L 725 360 L 805 305 Z" fill="none" stroke="var(--accent-amber)" stroke-width="2"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 20: BRIDGE / CHASM CROSSING ==================== -->
+    <section class="slide" data-family="Depth & Perspective" data-title="The Bridge / Chasm Crossing">
+      <header class="slide-header">
+        <span class="metaphor-badge">20 · Layered, Depth &amp; Perspective</span>
+        <h1>The Bridge / Chasm Crossing</h1>
+        <p class="subtitle">Gap Analysis &amp; Migration Roadmap: Spanning the operational abyss from Current State to Future State</p>
+      </header>
+      <div class="canvas-stage">
+        <svg viewBox="0 0 1200 600" class="metaphor-svg">
+          <polygon points="60,360 335,360 385,580 60,580" fill="rgba(244,63,94,0.15)" stroke="var(--accent-rose)" stroke-width="2.5"/>
+          <text x="195" y="415" text-anchor="middle" class="svg-title">CURRENT STATE</text>
+          <text x="195" y="438" text-anchor="middle" class="node-caption">Fragmented silos &amp; manual QA</text>
+
+          <polygon points="865,260 1140,260 1140,580 815,580" fill="rgba(16,185,129,0.18)" stroke="var(--accent-emerald)" stroke-width="2.5"/>
+          <text x="1005" y="320" text-anchor="middle" class="svg-title">FUTURE STATE</text>
+          <text x="1005" y="343" text-anchor="middle" class="node-caption">Autonomous AI-native operations</text>
+
+          <path d="M 325 360 C 490 130, 710 95, 875 260" fill="none" stroke="var(--accent-cyan)" stroke-width="5"/>
+          <path d="M 325 360 Q 600 285, 875 260" fill="none" stroke="var(--accent-amber)" stroke-width="3" stroke-dasharray="10 6"/>
+
+          <line x1="465" y1="225" x2="465" y2="330" stroke="var(--border-subtle)" stroke-width="2"/>
+          <circle cx="465" cy="225" r="14" fill="var(--accent-cyan)"/>
+          <text x="465" y="195" text-anchor="middle" class="node-title">Pillar 1 · Schema Bridge</text>
+
+          <line x1="600" y1="168" x2="600" y2="305" stroke="var(--border-subtle)" stroke-width="2"/>
+          <circle cx="600" cy="168" r="16" fill="var(--accent-violet)"/>
+          <text x="600" y="135" text-anchor="middle" class="node-title">Pillar 2 · Shadow Mode Eval</text>
+
+          <line x1="740" y1="182" x2="740" y2="282" stroke="var(--border-subtle)" stroke-width="2"/>
+          <circle cx="740" cy="182" r="14" fill="var(--accent-emerald)"/>
+          <text x="740" y="152" text-anchor="middle" class="node-title">Pillar 3 · Progressive Cutover</text>
+
+          <text x="600" y="525" text-anchor="middle" class="node-title" style="fill:var(--accent-rose)">⚠️ THE CHASM OF FAILED MIGRATIONS</text>
+          <text x="600" y="548" text-anchor="middle" class="node-caption">Big-bang rewrites · Unverified cutovers · Schema drift</text>
+        </svg>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Native Top-Layer Overview Grid Modal Dialog -->
+  <dialog class="overview-modal" id="overviewModal" closedby="any" aria-labelledby="overviewTitle">
+    <div style="display:flex; justify-content:space-between; align-items:center; max-width:1400px; margin:0 auto;">
+      <h2 id="overviewTitle">All 20 Visual Structural Metaphors (Click to Jump)</h2>
+      <button type="button" class="hud-btn" commandfor="overviewModal" command="close" autofocus>Close (ESC)</button>
+    </div>
+    <div class="overview-grid" id="overviewGrid"></div>
+  </dialog>
+
+  <script type="module">
+    // Feature detect 'commandForElement' on HTMLButtonElement.prototype for Invoker Commands
+    if (!('commandForElement' in HTMLButtonElement.prototype)) {
+      import('https://esm.run/invokers-polyfill').catch(() => {});
+    }
+  </script>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const themes = ['executive-dark', 'midnight-cobalt', 'editorial-light', 'warm-parchment'];
+    const overviewDialog = document.getElementById('overviewModal');
+    let currentSlide = 0;
+    let currentTheme = 0;
+
+    let supportsDisplayTransition;
+    function canTransitionDisplay() {
+      if (supportsDisplayTransition !== undefined) return supportsDisplayTransition;
+      if (!window.CSS?.supports?.('transition-behavior', 'allow-discrete') || !document.body) {
+        return false;
+      }
+      const probe = document.createElement('div');
+      probe.style.cssText = 'transition: display 1s allow-discrete !important; display: block;';
+      document.body.appendChild(probe);
+      getComputedStyle(probe).display;
+      probe.style.display = 'none';
+      supportsDisplayTransition = getComputedStyle(probe).display === 'block';
+      probe.remove();
+      return supportsDisplayTransition;
+    }
+
+    function supportsTopLayerExit() {
+      return window.CSS?.supports?.('overlay', 'auto') && canTransitionDisplay();
+    }
+
+    async function closeTopLayer(element) {
+      if (!element.open) return;
+      if (!supportsTopLayerExit()) {
+        element.setAttribute('data-closing', '');
+        const animations = element.getAnimations({ subtree: true });
+        if (animations.length > 0) {
+          await Promise.race([
+            Promise.allSettled(animations.map((a) => a.finished)),
+            new Promise((r) => setTimeout(r, 2000)),
+          ]);
+        }
+        if (!element.hasAttribute('data-closing')) return;
+        element.removeAttribute('data-closing');
+      }
+      element.close();
+    }
+
+    overviewDialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeTopLayer(overviewDialog);
+    });
+
+    // Fallback for browsers without closedby="any" support
+    if (!('closedBy' in HTMLDialogElement.prototype)) {
+      overviewDialog.addEventListener('click', (event) => {
+        if (event.target !== overviewDialog) return;
+        const rect = overviewDialog.getBoundingClientRect();
+        const isDialogContent = (
+          rect.top <= event.clientY &&
+          event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX &&
+          event.clientX <= rect.left + rect.width
+        );
+        if (isDialogContent) return;
+        closeTopLayer(overviewDialog);
+      });
+    }
+
+    function navigate(updateDOM, direction) {
+      if (!document.startViewTransition) {
+        updateDOM();
+        return;
+      }
+      document.startViewTransition({
+        update: updateDOM,
+        types: [direction]
+      });
+    }
+
+    function updateDeck() {
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === currentSlide));
+      document.getElementById('slideCounter').textContent =
+        String(currentSlide + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+      document.getElementById('familyLabel').textContent = slides[currentSlide].dataset.family;
+      document.getElementById('progressBar').style.width = ((currentSlide + 1) / slides.length * 100) + '%';
+      renderOverview();
+    }
+
+    function nextSlide() {
+      navigate(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateDeck();
+      }, 'forward');
+    }
+
+    function prevSlide() {
+      navigate(() => {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        updateDeck();
+      }, 'backward');
+    }
+
+    function cycleTheme() {
+      currentTheme = (currentTheme + 1) % themes.length;
+      const nextTheme = themes[currentTheme];
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      const scheme = (nextTheme === 'editorial-light' || nextTheme === 'warm-parchment') ? 'light' : 'dark';
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) meta.content = scheme;
+      try { localStorage.setItem('color-scheme', scheme); } catch {}
+    }
+
+    function toggleOverview() {
+      if (overviewDialog.open) {
+        closeTopLayer(overviewDialog);
+      } else {
+        overviewDialog.showModal();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function renderOverview() {
+      const grid = document.getElementById('overviewGrid');
+      grid.innerHTML = slides.map((s, idx) => `
+        <button type="button" class="overview-item ${idx === currentSlide ? 'current' : ''}" onclick="jumpTo(${idx})" style="text-align:left; font-family:inherit;">
+          <div class="num">Metaphor #${String(idx + 1).padStart(2, '0')}</div>
+          <div class="title">${s.dataset.title}</div>
+          <div class="family">${s.dataset.family}</div>
+        </button>
+      `).join('');
+    }
+
+    function jumpTo(idx) {
+      const dir = idx >= currentSlide ? 'forward' : 'backward';
+      closeTopLayer(overviewDialog);
+      navigate(() => {
+        currentSlide = idx;
+        updateDeck();
+      }, dir);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (overviewDialog.open) return;
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+      if (e.key === 'g' || e.key === 'G') { e.preventDefault(); toggleOverview(); }
+      if (e.key === 't' || e.key === 'T') cycleTheme();
+      if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+    });
+
+    updateDeck();
+  </script>
+</body>
+</html>
